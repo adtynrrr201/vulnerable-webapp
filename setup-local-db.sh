@@ -5,29 +5,29 @@
 echo "Setting up vulnerable web application database in local MySQL..."
 
 # Check if MySQL is running
-if ! mysql -u root -e "SELECT 1;" >/dev/null 2>&1; then
+if ! mysql -u root -p'rootpassword' -e "SELECT 1;" >/dev/null 2>&1; then
     echo "Attempting to start MySQL service..."
     sudo service mysql start 2>/dev/null || sudo systemctl start mysql 2>/dev/null
-    
+
     # Wait a moment for MySQL to start
     sleep 3
 fi
 
 # Check again if MySQL is accessible
-if mysql -u root -e "SELECT 1;" >/dev/null 2>&1; then
+if mysql -u root -p'rootpassword' -e "SELECT 1;" >/dev/null 2>&1; then
     echo "MySQL is accessible."
 else
-    echo "ERROR: Cannot access MySQL. Please ensure MySQL is running and accessible with 'mysql -u root'"
-    echo "You may need to set a password for the root user or configure MySQL authentication."
+    echo "ERROR: Cannot access MySQL. Please ensure MySQL is running and accessible with 'mysql -u root -p'rootpassword''"
+    echo "Make sure your MySQL root password is 'rootpassword'."
     exit 1
 fi
 
 # Create database and import schema
 echo "Creating database 'vulnerable_app'..."
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS vulnerable_app;"
+mysql -u root -p'rootpassword' -e "CREATE DATABASE IF NOT EXISTS vulnerable_app;"
 
 echo "Importing database schema and sample data..."
-mysql -u root vulnerable_app < database.sql
+mysql -u root -p'rootpassword' vulnerable_app < database.sql
 
 if [ $? -eq 0 ]; then
     echo "Database setup completed successfully!"

@@ -3,7 +3,7 @@
 // Configuration for local MySQL installation
 $db_host = getenv('DB_HOST') ?: 'localhost';  // Use 'localhost' for local MySQL
 $db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASSWORD') ?: '';  // Leave empty for local MySQL with no password, or set your local password
+$db_pass = getenv('DB_PASSWORD') ?: 'rootpassword';  // Use the correct password for local MySQL
 $db_name = getenv('DB_NAME') ?: 'vulnerable_app';
 
 // Retry connection with exponential backoff
