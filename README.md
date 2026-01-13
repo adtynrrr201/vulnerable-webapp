@@ -48,9 +48,9 @@ $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$passwo
 1. Make sure you have Docker and Docker Compose installed
 2. Run the application stack:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
-3. The application will be available at: `http://localhost:8080`
+3. The application will be available at: `http://localhost:8082`
 4. MySQL database will be available at: `localhost:3306`
 
 ### Option 2: Traditional Deployment
