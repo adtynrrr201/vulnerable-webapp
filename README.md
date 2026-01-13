@@ -43,7 +43,19 @@ $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$passwo
 
 ## Installation & Deployment
 
-### Step 1: Database Setup
+### Option 1: Docker Deployment (Recommended for Development)
+
+1. Make sure you have Docker and Docker Compose installed
+2. Run the application stack:
+```bash
+docker-compose up -d
+```
+3. The application will be available at: `http://localhost:8080`
+4. MySQL database will be available at: `localhost:3306`
+
+### Option 2: Traditional Deployment
+
+#### Step 1: Database Setup
 
 ```bash
 # Login to MySQL
@@ -58,9 +70,9 @@ Or using command line:
 mysql -u root -p < database.sql
 ```
 
-### Step 2: Web Server Configuration
+#### Step 2: Web Server Configuration
 
-#### Apache Deployment
+##### Apache Deployment
 
 1. Install Apache and PHP:
 ```bash
@@ -87,7 +99,7 @@ sudo chown -R www-data:www-data /home/adityanur/vulnerable-webapp
 sudo chmod -R 755 /home/adityanur/vulnerable-webapp
 ```
 
-#### Nginx Deployment
+##### Nginx Deployment
 
 1. Install Nginx and PHP-FPM:
 ```bash
