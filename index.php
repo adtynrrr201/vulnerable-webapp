@@ -1,8 +1,9 @@
 <?php
 // Vulnerable login application with SQL injection
-$db_host = getenv('DB_HOST') ?: 'db';  // Use 'db' as hostname when connecting from app container
+// Configuration for local MySQL installation
+$db_host = getenv('DB_HOST') ?: 'localhost';  // Use 'localhost' for local MySQL
 $db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASSWORD') ?: 'root';  // Use the password defined in docker-compose
+$db_pass = getenv('DB_PASSWORD') ?: '';  // Leave empty for local MySQL with no password, or set your local password
 $db_name = getenv('DB_NAME') ?: 'vulnerable_app';
 
 // Retry connection with exponential backoff
