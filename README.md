@@ -53,7 +53,17 @@ docker compose up -d
 3. The application will be available at: `http://localhost:8082`
 4. MySQL database will be available at: `localhost:3306`
 
-### Option 2: Traditional Deployment
+### Option 2: Local Installation with System MySQL
+
+1. Make sure you have a local MySQL installation running
+2. Set up the database using the provided script:
+```bash
+./setup-local-db.sh
+```
+3. Configure your local web server (Apache or Nginx) to serve the application
+4. The application will connect to your local MySQL installation
+
+### Option 3: Traditional Deployment
 
 #### Step 1: Database Setup
 
