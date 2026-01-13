@@ -1,14 +1,36 @@
 <?php
 // Vulnerable login application with SQL injection
-$db_host = getenv('DB_HOST') ?: 'localhost';
+$db_host = getenv('DB_HOST') ?: 'db';  // Use 'db' as hostname when connecting from app container
 $db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASSWORD') ?: '';
+$db_pass = getenv('DB_PASSWORD') ?: 'root';  // Use the password defined in docker-compose
 $db_name = getenv('DB_NAME') ?: 'vulnerable_app';
 
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+// Retry connection with exponential backoff
+$max_retries = 5;
+$retry_delay = 1; // seconds
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+for ($i = 0; $i < $max_retries; $i++) {
+    try {
+        $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+
+        if ($conn->connect_error) {
+            if ($i == $max_retries - 1) {
+                die("Connection failed after $max_retries attempts: " . $conn->connect_error);
+            }
+            sleep($retry_delay);
+            $retry_delay *= 2; // exponential backoff
+            continue;
+        }
+
+        // Connection successful, break out of loop
+        break;
+    } catch (mysqli_sql_exception $e) {
+        if ($i == $max_retries - 1) {
+            die("Connection failed after $max_retries attempts: " . $e->getMessage());
+        }
+        sleep($retry_delay);
+        $retry_delay *= 2; // exponential backoff
+    }
 }
 
 $message = '';
