@@ -1,14 +1,14 @@
 <?php
 // Vulnerable login application with SQL injection
-// Configuration for local MySQL installation
-$db_host = getenv('DB_HOST') ?: 'localhost';  // Use 'localhost' for local MySQL
+// Configuration for Docker MySQL installation
+$db_host = getenv('DB_HOST') ?: 'db';  // Use 'db' service name in Docker
 $db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASSWORD') ?: 'rootpassword';  // Use the correct password for local MySQL
+$db_pass = getenv('DB_PASSWORD') ?: 'root';  // Use the password for Docker MySQL
 $db_name = getenv('DB_NAME') ?: 'vulnerable_app';
 
 // Retry connection with exponential backoff
-$max_retries = 5;
-$retry_delay = 1; // seconds
+$max_retries = 10;  // Increase retries for Docker initialization
+$retry_delay = 2; // seconds
 
 for ($i = 0; $i < $max_retries; $i++) {
     try {
@@ -19,18 +19,26 @@ for ($i = 0; $i < $max_retries; $i++) {
                 die("Connection failed after $max_retries attempts: " . $conn->connect_error);
             }
             sleep($retry_delay);
-            $retry_delay *= 2; // exponential backoff
             continue;
         }
 
-        // Connection successful, break out of loop
+        // Check if database and tables exist
+        $result = $conn->query("SELECT 1 FROM users LIMIT 1");
+        if (!$result) {
+            if ($i == $max_retries - 1) {
+                die("Database tables not ready after $max_retries attempts. Error: " . $conn->error);
+            }
+            sleep($retry_delay);
+            continue;
+        }
+
+        // Connection and database ready, break out of loop
         break;
     } catch (mysqli_sql_exception $e) {
         if ($i == $max_retries - 1) {
             die("Connection failed after $max_retries attempts: " . $e->getMessage());
         }
         sleep($retry_delay);
-        $retry_delay *= 2; // exponential backoff
     }
 }
 
