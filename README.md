@@ -51,7 +51,7 @@ $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$passwo
 docker compose up -d
 ```
 3. The application will be available at: `http://localhost:8082`
-4. MySQL database will be available at: `localhost:3306`
+4. MySQL database will be available at: `localhost:3307` (to avoid conflict with local MySQL on 3306)
 
 ### Option 2: Local Installation with System MySQL
 
