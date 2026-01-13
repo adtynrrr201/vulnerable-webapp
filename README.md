@@ -8,6 +8,15 @@ This application contains **intentional security vulnerabilities** for education
 
 A simple PHP login system with MySQL backend that demonstrates SQL injection vulnerabilities. The application allows users to bypass authentication using malicious SQL queries.
 
+## Progress Tracking
+
+Throughout the development of this project, I've made several commits to track the progress:
+
+1. **Initial commit**: Basic vulnerable application
+2. **Fix SQL injection vulnerability**: Implemented prepared statements and security best practices
+3. **Add comprehensive README**: Detailed deployment instructions
+4. **Initial project setup**: CLI tool and templates
+
 ## Vulnerability Details
 
 ### SQL Injection in Login Form
@@ -133,6 +142,8 @@ The secure version is available in the `sql-injection-fix` branch. Key improveme
 - **Input Validation**: Proper sanitization of user input
 - **Password Hashing**: Using `password_hash()` instead of plain text
 - **Error Handling**: Secure error messages without information disclosure
+- **Session Security**: Protection against session fixation attacks
+- **Audit Logging**: Security event logging capabilities
 
 Switch to the secure version:
 ```bash
@@ -173,6 +184,7 @@ After studying this application, you should understand:
 3. **The dangers of string interpolation in SQL queries**
 4. **How to implement secure database access**
 5. **Security testing methodologies**
+6. **Git workflow for tracking security fixes**
 
 ## Security Best Practices (For Production)
 
@@ -184,6 +196,22 @@ After studying this application, you should understand:
 6. **Keep software updated**
 7. **Implement Web Application Firewall (WAF)**
 8. **Regular security testing and code reviews**
+9. **Principle of least privilege**
+10. **Defense in depth**
+
+## Git Workflow
+
+This project demonstrates proper git workflow for security development:
+
+- **Main branch**: Contains the vulnerable version for educational purposes
+- **sql-injection-fix branch**: Contains the secure version with fixes
+- **Descriptive commit messages**: Each commit explains the changes made
+- **Progress tracking**: Commits show the evolution of the project
+
+To see the differences between branches:
+```bash
+git diff main sql-injection-fix
+```
 
 ## Legal & Ethical Notice
 
